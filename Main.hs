@@ -22,7 +22,7 @@ applicatePerLines input =
     in  result
 
 converter :: String -> String
-converter x = (liC . headC . andC . strongC . mathC) x
+converter x = (liC . headC . andC . strongC . mathC . linkC) x
 
 headC :: String -> String
 headC str = unlines $ map heads (lines str)
@@ -47,6 +47,14 @@ strongC str = unwords $ map tag ch
     where
         tag x
           | (encodeString x) =~ "\\*\\*.*\\*\\*.?" = "[* " ++ (reverse $ drop 2 $ reverse $ drop 2 x) ++ " ]"
+          | otherwise = x
+        ch = wordsWhen (==' ') str
+
+linkC :: String -> String
+linkC str = unwords $ map tag ch
+    where
+        tag x
+          | (encodeString x) =~ "\\[.*\\]\\(.*\\)" = "[" ++ (init $ tail $ gsub "](" " " x) ++ "]"
           | otherwise = x
         ch = wordsWhen (==' ') str
 
@@ -75,9 +83,6 @@ mapOnce f (x:xs) = case f x of
 replaceX items old new = mapOnce check items where
     check item  | item == old = Just new
                 | otherwise   = Nothing
-
-
-
 
 wordsWhen     :: (Char -> Bool) -> String -> [String]
 wordsWhen p s =  case dropWhile p s of
