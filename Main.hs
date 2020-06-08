@@ -28,10 +28,10 @@ headC :: String -> String
 headC str = unlines $ map heads (lines str)
   where
     heads x
-      | isPrefixOf "####" x  = "[[*" ++ (drop 4 x) ++ " ]]"
-      | isPrefixOf "###" x  = "[[**" ++ (drop 3 x) ++ " ]]"
-      | isPrefixOf "##" x  = "[[***" ++ (drop 2 x) ++ " ]]"
-      | isPrefixOf "#" x  = "[[****" ++ (drop 1 x) ++ " ]]"
+      | isPrefixOf "####" x  = "[*" ++ (drop 4 x) ++ " ]"
+      | isPrefixOf "###" x  = "[**" ++ (drop 3 x) ++ " ]"
+      | isPrefixOf "##" x  = "[***" ++ (drop 2 x) ++ " ]"
+      | isPrefixOf "#" x  = "[****" ++ (drop 1 x) ++ " ]"
       | otherwise = x
 
 andC :: String -> String
@@ -46,7 +46,7 @@ strongC :: String -> String
 strongC str = unwords $ map tag ch
     where
         tag x
-          | (encodeString x) =~ "\\*\\*.*\\*\\*.?" = "[[ " ++ (reverse $ drop 2 $ reverse $ drop 2 x) ++ " ]]"
+          | (encodeString x) =~ "\\*\\*.*\\*\\*.?" = "[* " ++ (reverse $ drop 2 $ reverse $ drop 2 x) ++ " ]"
           | otherwise = x
         ch = wordsWhen (==' ') str
 
@@ -54,7 +54,7 @@ mathC :: String -> String
 mathC str = unwords $ map tag ch
     where
         tag x
-          | (encodeString x) =~ "\\$[^\\$]*\\$" = "[[$ " ++ (init . tail . rep) x ++ "]]"
+          | (encodeString x) =~ "^\\$[^\\$]*\\$$" = "[$ " ++ (init . tail . rep) x ++ "]"
           | otherwise = x
         ch = wordsWhen (==' ') str
         rep = map (\c -> if c=='$' then ' ' else c)
