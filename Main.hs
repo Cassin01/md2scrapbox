@@ -103,4 +103,6 @@ gsub x y str@(s:ss)
     [Haskellで日本語を正規表現で置換](https://qiita.com/acro5piano/items/96d30d035bea527b1d24)
 
     [haskellで部分列置換](https://bsq77.hatenadiary.org/entry/20130224/1361672367)
+
+    [Markdown、Markdown Extra の正規表現一覧](https://qiita.com/hibara/items/78454f6c70c55e7aa612)
 -}
